@@ -1,0 +1,54 @@
+<html>
+
+<head>
+    <title>JS & DOM</title>
+</head>
+
+<body>
+    <div style="display: flex">
+        <input type="text" id="inputEncabezado" placeholder="Ingresa el nuevo encabezado"
+        style="width:70%;margin-bottom:10px" />
+    </div>
+    <div style="display: flex">
+        <button id="btnActualizacion" onClick="modificarEncabezado()" style="margin-right: 10px">Establecer Encabezado</button>
+        <button id="btnUndo" disabled>Encabezado Anterior</button>
+    </div>
+    <h1 id="encabezado">...</h1>
+
+    <script>
+        const btnUndo = document.getElementById('btnUndo');
+        const tituloEncabezado = document.getElementById('encabezado');
+        const inputEncabezado = document.getElementById('inputEncabezado');
+        let contadorTitulos = 0;
+        let tituloAnterior = '';
+
+        function modificarEncabezado() {
+            const nuevoEncabezado = inputEncabezado.value.trim(); // Obtenemos el valor del input y eliminamos espacios en blanco
+
+            if (nuevoEncabezado !== '') { // Validamos que el valor no esté vacío
+                tituloAnterior = tituloEncabezado.textContent; // Guardamos el título anterior
+                tituloEncabezado.textContent = nuevoEncabezado; // Establecemos el nuevo encabezado
+
+                // Incrementamos el contador de títulos y habilitamos el botón "btnUndo" si se han establecido al menos 2 títulos
+                contadorTitulos++;
+                if (contadorTitulos >= 2) {
+                    btnUndo.disabled = false;
+                }
+            } else {
+                // Notificamos al usuario si el valor está vacío
+                alert('El valor no puede ser vacío');
+            }
+        }
+
+        // Agregamos un evento de click al botón "btnUndo"
+        btnUndo.addEventListener('click', function() {
+            // Restauramos el título anterior y decrementamos el contador de títulos
+            tituloEncabezado.textContent = tituloAnterior;
+            contadorTitulos--;
+
+            // Deshabilitamos el botón "btnUndo" si ya no hay al menos 2 títulos establecidos
+            if (contadorTitulos < 2) {
+                btnUndo.disabled = true;
+            }
+        });
+    </script
